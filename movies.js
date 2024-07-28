@@ -1,16 +1,14 @@
-const movieListEl = document.querySelector(" .movie__list");
+const movieListEl = document.querySelector(".movie__list");
 
-async function main() {
-  const movie = await fetch("https://www.omdbapi.com/?apikey=5f7402b0&s=fast");
+async function main(search) {
+  const movie = await fetch(
+    `https://www.omdbapi.com/?apikey=5f7402b0&s=${search}`
+  );
   const movieData = await movie.json();
-  const movies = movieData.Search.slice(0, 6); 
-  movieListEl.innerHTML = movieData.Search.map((movie) =>
-    movieHTML(movie)
-  ).join("");
+  console.log(search)
+  const movies = movieData.Search.slice(0, 6);
+  movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
 }
-
-main();
-
 
 function movieHTML(movie) {
   return `<div class="movie">
@@ -22,26 +20,17 @@ function movieHTML(movie) {
     </div>`;
 }
 
-
 // SORT
 
 async function filterMovies(event) {
-    const promise = await fetch("https://www.omdbapi.com/?apikey=5f7402b0&s=fast");
-    const result = await promise.json();
-    let movies = result.Search.slice(0, 6); 
-  
-    if (event.target.value === "Latest-Movies") {
-      movies = sortNewToOld(movies);
-    } else if (event.target.value === "Oldest-Movies") {
-      movies = sortOldToNew(movies);
-    }
-  
-    movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
+  if (event.target.value === "Latest-Movies") {
+    sortNewToOld(movies);
+  } else if (event.target.value === "Oldest-Movies") {
+    sortOldToNew(movies);
   }
 
-
-filterMovies(6);
-
+  movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
+}
 
 function sortNewToOld(movies) {
   return movies.sort((a, b) => b.Year - a.Year);
@@ -50,4 +39,3 @@ function sortNewToOld(movies) {
 function sortOldToNew(movies) {
   return movies.sort((a, b) => a.Year - b.Year);
 }
-
