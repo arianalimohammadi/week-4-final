@@ -1,12 +1,25 @@
 const movieListEl = document.querySelector(".movie__list");
 
-async function main(search) {
-  const movie = await fetch(
-    `https://www.omdbapi.com/?apikey=5f7402b0&s=${search}`
+async function main(event) {
+  event.preventDefault();
+
+  const searchInput = document.querySelector(".search__input");
+  const searchQuery = searchInput.value;
+
+  const response = await fetch(
+    `https://www.omdbapi.com/?apikey=5f7402b0&s=${searchQuery}`
   );
-  const movieData = await movie.json();
-  console.log(search)
-  const movies = movieData.Search.slice(0, 6);
+  const movieData = await response.json();
+
+  if (movieData.Response === "True") {
+    const movies = movieData.Search.slice(0, 6);
+    renderMovies(movies);
+  } else {
+    movieListEl.innerHTML = `<p>No movies found.<p>`;
+  }
+}
+
+function renderMovies(movies) {
   movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
 }
 
