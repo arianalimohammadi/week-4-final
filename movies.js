@@ -10,10 +10,11 @@ async function main(event) {
   const response = await fetch(
     `https://www.omdbapi.com/?apikey=5f7402b0&s=${searchQuery}`
   );
+
   const movieData = await response.json();
 
   if (movieData.Response === "True") {
-    const movies = movieData.Search.slice(0, 6);
+    movies = movieData.Search.slice(0, 6);
     renderMovies(movies);
   } else {
     movieListEl.innerHTML = `<p>No movies found.<p>`;
