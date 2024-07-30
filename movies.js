@@ -1,4 +1,5 @@
 const movieListEl = document.querySelector(".movie__list");
+let movies = [];
 
 async function main(event) {
   event.preventDefault();
@@ -42,7 +43,8 @@ async function filterMovies(event) {
     sortOldToNew(movies);
   }
 
-  movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
+  renderMovies(movies);
+  //   movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
 }
 
 function sortNewToOld(movies) {
