@@ -44,7 +44,7 @@ async function filterMovies(event) {
   }
 
   renderMovies(movies);
-  //   movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
+  movieListEl.innerHTML = movies.map((movie) => movieHTML(movie)).join("");
 }
 
 function sortNewToOld(movies) {
